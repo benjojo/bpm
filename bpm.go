@@ -131,3 +131,26 @@ func ReadFloatArray(samples []float32) []float32 {
 
 	return nrg
 }
+
+// ProgressivelyReadFloatArray takes a channel of pcm_s16le samples
+// and processes it give back samples for that can be used for ScanForBpm
+func ProgressivelyReadFloatArray(in chan float32, out chan float32) {
+	var v, n float64
+
+	for smpl := range in {
+		z := math.Abs(float64(smpl))
+		if z > v {
+			v += (z - v) / 8
+		} else {
+			v -= (v - z) / 512
+		}
+
+		n++
+		if n == INTERVAL {
+			n = 0
+			out <- float32(v)
+		}
+	}
+
+	close(out)
+}
