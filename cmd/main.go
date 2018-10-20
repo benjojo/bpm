@@ -12,7 +12,7 @@ import (
 
 var (
 	min                 = flag.Float64("min", 120, "min BPM you are expecting")
-	max                 = flag.Float64("max", 200, "min BPM you are expecting")
+	max                 = flag.Float64("max", 200, "max BPM you are expecting")
 	progressive         = flag.Bool("progressive", false, "Print the BPM for every period")
 	progressiveInterval = flag.Int("interval", 10, "How many seconds for every progressive chunk printed")
 )
